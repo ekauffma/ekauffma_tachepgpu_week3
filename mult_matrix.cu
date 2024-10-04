@@ -62,7 +62,6 @@ int main() {
     t0 = clock();
 
     // N*N matrices defined in 1 dimention
-    // If you prefer to do this in 2-dimentions cupdate accordingly
     h_A = new float[DSIZE*DSIZE];
     h_B = new float[DSIZE*DSIZE];
     h_C = new float[DSIZE*DSIZE];
@@ -81,11 +80,12 @@ int main() {
     cudaMalloc(&d_A, DSIZE*DSIZE*sizeof(float));
     cudaMalloc(&d_B, DSIZE*DSIZE*sizeof(float));
     cudaMalloc(&d_C, DSIZE*DSIZE*sizeof(float));
+    cudaCheckErrors("After memory allocation");
 
     cudaMemcpy(d_A, h_A, DSIZE * DSIZE * sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, h_B, DSIZE * DSIZE * sizeof(float), cudaMemcpyHostToDevice);
     cudaMemcpy(d_C, h_C, DSIZE * DSIZE * sizeof(float), cudaMemcpyHostToDevice);
-  
+    cudaCheckErrors("After copying from host to device");
 
     // Launch kernel
     // Specify the block and grid dimentions 
@@ -94,9 +94,11 @@ int main() {
     dim3 gridSize(DSIZE/block_size, DSIZE/block_size); 
 
     matrix_mul_gpu<<<gridSize, blockSize>>>(d_A, d_B, d_C, DSIZE);
+    cudaCheckErrors("After launching kernel");
 
     // Copy results back to host
     cudaMemcpy(h_C, d_C, DSIZE*DSIZE*sizeof(float), cudaMemcpyDeviceToHost);
+    cudaCheckErrors("After copying from device to host");
 
     // GPU timing
     t2 = clock();
