@@ -62,7 +62,6 @@ int main()
 
     // Print and check some elements to make the addition was succesfull
     // print some elements of each matrix
-    printf("Before Swap:\n");
     printf("h_A first column [:5] = [");
     for (int i=0; i < 5; i++) {
         printf("%f, ",h_A[i*DSIZE_X]);
@@ -83,7 +82,6 @@ int main()
         printf("%f, ",h_B[i*DSIZE_X+1]);
     }
     printf("]\n\n");
-    printf("Before Swap:\n");
     printf("h_C first column [:5] = [");
     for (int i=0; i < 5; i++) {
         printf("%f, ",h_C[i*DSIZE_X]);
@@ -93,7 +91,7 @@ int main()
     for (int i=0; i < 5; i++) {
         printf("%f, ",h_C[i*DSIZE_X+1]);
     }
-    printf("]\n");
+    printf("]\n\n");
 
     // Free the memory     
     free(h_A);
